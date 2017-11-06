@@ -56,7 +56,7 @@ def room_availability(s, room):
     else:
         print("Room "+room.name+" is OCCUPIED for "+td_format(duration_until_available))
 
-
+# thanks to Adam Jacob Muller from https://stackoverflow.com/a/13756038
 def td_format(td_object):
     seconds = int(td_object.total_seconds())
     periods = [
