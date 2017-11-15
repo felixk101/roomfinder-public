@@ -3,10 +3,24 @@ from django.http import HttpResponse
 import webuntis
 import datetime
 import secret
+from django.template import loader
 
 
-# Create your views here.
+# Start page: Select
 def index(request):
+    i = datetime.datetime.now()
+    t = loader.get_template('index.html')
+    html = t.render({'month': i.month, 'year': i.year, 'day': i.day, 'hour': i.hour, 'minute': i.minute})
+    return HttpResponse(html)
+
+
+# Result page is called by the index-View (or directly)
+def results(request):
+    return HttpResponse("Nothing here yet!")
+
+
+# Place test in this method
+def test(request):
     s = webuntis.Session(
         username=secret.username,
         password=secret.password,

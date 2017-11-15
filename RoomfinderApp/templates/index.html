@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>RoomFinder</title>
+    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+</head>
+<body>
+    <header>
+      <p><img src="{% static "hsLogo.png" %}" alt="HsLogo"/></p>
+      <h1 class="mainLine">RoomFinder</h1>
+    </header>
+    <section>
+      <form>
+        <fieldset>
+          <legend >Gebäude</legend>
+            <table>
+                <tr>
+                    <td><input id="buildingA" type="checkbox" value="1"> A  </input> </td>
+                    <td> <input id="buildingB" type="checkbox" value="2"> B </input> </td>
+                    <td> <input id="buildingC" type="checkbox" value="4">C </input> </td>
+                </tr>
+                <tr>
+                    <td> <input id="buildingD" type="checkbox" value="8"> D  </input>  </td>
+                    <td> <input id="buildingE" type="checkbox" value="16"> E </input>  </td>
+                    <td> <input id="buildingF" type="checkbox" value="32">F </input>  </td>
+                </tr>
+                <tr>
+                    <td> <input id="buildingG" type="checkbox" value="64"> G  </input> </td>
+                    <td> <input id="buildingH" type="checkbox" value="128"> H </input> </input> </td>
+                    <td> <input id="buildingJ" type="checkbox" value="256">J </input> </td>
+                </tr>
+                <tr>
+                    <td> <input id="buildingKLM" type="checkbox" value="512"> KLM  </input> </td>
+                    <td> <input id="buildingN" type="checkbox" value="1024"> N </input> </td>
+                    <td> <input id="buildingP" type="checkbox" value="2048">P </input> </td>
+                </tr>
+                <tr>
+                    <td> <input id="buildingR" type="checkbox" value="4096"> R  </input> </td>
+                    <td> <input id="buildingW" type="checkbox" value="8192"> W </input> </td>
+                </tr>
+            </table>
+        </fieldset>
+      </form>
+      <form>
+        <fieldset>
+          <legend>Stockwerk</legend>
+            <table>
+                <tr>
+                    <td> <input id="firstLevel" class="left" type="checkbox" value="1"> Erster Stock  </input>  </td>
+                    <td> <input id="secondLevel" class="right" type="checkbox" value="2"> Zweiter Stock </input>  </td>
+                </tr>
+                <tr>
+                    <td> <input id="thirdLevel" class="left" type="checkbox" value="4"> Dritter Stock </input>  </td>
+                    <td> <input id="fourthLevel" class="right" type="checkbox" value="8"> Vierter Stock</input>  </td>
+                </tr>
+            </table>
+        </fieldset>
+      </form>
+      <p>
+          Datum und Uhrzeit: <input type="datetime-local" name="bdaytime" value="{{ year }}-{{ month }}-{{ day }}T{{ hour }}:{{ minute }}:00">
+      </p>
+    </section>
+    <section>
+      <p>
+        <button type="button" onclick="onButtonClick()">Freie Räume suchen</button>
+      </p>
+    </section>
+</body>
+</html>
+<script src="{% static "functions.js" %}"></script>

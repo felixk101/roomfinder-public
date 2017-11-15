@@ -1,0 +1,26 @@
+p, h1 {
+ text-align: center;
+}
+
+legend {
+    margin-left: calc(48%);
+    border: 1px solid black;
+}
+
+fieldset {
+    margin-left: calc(4%);
+    margin-right: calc(4%);
+}
+
+form {
+    padding: 1%;
+}
+
+table {
+    width: 100%;
+}
+
+button {
+    padding: 1em;
+    border-radius: 6px;
+}
