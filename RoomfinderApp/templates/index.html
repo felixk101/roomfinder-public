@@ -7,7 +7,7 @@
     <title>RoomFinder</title>
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
 </head>
-<body>
+<body onload="verifyCheckboxes()">
     <header>
       <p><img src="{% static "hsLogo.png" %}" alt="HsLogo"/></p>
       <h1 class="mainLine">RoomFinder</h1>
@@ -24,28 +24,28 @@
                     <td> <input onclick="allBuildingsSelected()" id="allBuildings" type="checkbox" >Alle Gebäude </input> </td>
                 </tr>
                 <tr>
-                    <td><input onclick="oneBuildingDeselected('buildingA')" id="buildingA" type="checkbox" name="A"> A  </input> </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingB')" id="buildingB" type="checkbox" name="B"> B </input> </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingC')" id="buildingC" type="checkbox" name="C">C </input> </td>
+                    <td><input onclick="oneBuildingDeselected('buildingA')" {% if 'A' in buildings %} checked {% endif %} id="buildingA" type="checkbox" name="A"> A  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingB')" {% if 'B' in buildings %} checked {% endif %} id="buildingB" type="checkbox" name="B"> B </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingC')" {% if 'C' in buildings %} checked {% endif %} id="buildingC" type="checkbox" name="C">C </input> </td>
                 </tr>
                 <tr>
-                    <td> <input onclick="oneBuildingDeselected('buildingD')" id="buildingD" type="checkbox" name="D"> D  </input>  </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingE')" id="buildingE" type="checkbox" name="E"> E </input>  </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingF')" id="buildingF" type="checkbox" name="F">F </input>  </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingD')" {% if 'D' in buildings %} checked {% endif %} id="buildingD" type="checkbox" name="D"> D  </input>  </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingE')" {% if 'E' in buildings %} checked {% endif %} id="buildingE" type="checkbox" name="E"> E </input>  </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingF')" {% if 'F' in buildings %} checked {% endif %} id="buildingF" type="checkbox" name="F">F </input>  </td>
                 </tr>
                 <tr>
-                    <td> <input onclick="oneBuildingDeselected('buildingG')" id="buildingG" type="checkbox" name="G"> G  </input> </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingH')" id="buildingH" type="checkbox" name="H"> H </input> </input> </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingJ')" id="buildingJ" type="checkbox" name="J">J </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingG')" {% if 'G' in buildings %} checked {% endif %} id="buildingG" type="checkbox" name="G"> G  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingH')" {% if 'H' in buildings %} checked {% endif %} id="buildingH" type="checkbox" name="H"> H </input> </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingJ')" {% if 'J' in buildings %} checked {% endif %} id="buildingJ" type="checkbox" name="J">J </input> </td>
                 </tr>
                 <tr>
-                    <td> <input onclick="oneBuildingDeselected('buildingKLM')" id="buildingKLM" type="checkbox" name="KLM"> KLM  </input> </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingN')" id="buildingN" type="checkbox" name="N"> N </input> </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingP')" id="buildingP" type="checkbox" name="P">P </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingKLM')" {% if 'KLM' in buildings %} checked {% endif %} id="buildingKLM" type="checkbox" name="KLM"> KLM  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingN')" {% if 'N' in buildings %} checked {% endif %} id="buildingN" type="checkbox" name="N"> N </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingP')" {% if 'P' in buildings %} checked {% endif %} id="buildingP" type="checkbox" name="P">P </input> </td>
                 </tr>
                 <tr>
-                    <td> <input onclick="oneBuildingDeselected('buildingR')" id="buildingR" type="checkbox" name="R"> R  </input> </td>
-                    <td> <input onclick="oneBuildingDeselected('buildingW')" id="buildingW" type="checkbox" name="W"> W </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingR')" {% if 'R' in buildings %} checked {% endif %} id="buildingR" type="checkbox" name="R"> R  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingW')" {% if 'W' in buildings %} checked {% endif %} id="buildingW" type="checkbox" name="W"> W </input> </td>
                 </tr>
             </table>
         </fieldset>
@@ -65,12 +65,12 @@
                     <td> <input id="allLevel" type="checkbox" onclick="allLevelSelected()"> Alle Stockwerke </input> </td>
                 </tr>
                 <tr>
-                    <td> <input onclick="oneLevelDeselected('firstLevel')" id="firstLevel" type="checkbox" name="level1"> Erster Stock  </input>  </td>
-                    <td> <input onclick="oneLevelDeselected('secondLevel')" id="secondLevel" type="checkbox" name="level2"> Zweiter Stock </input>  </td>
+                    <td> <input onclick="oneLevelDeselected('firstLevel')" {% if 'level1' in levels %} checked {% endif %} id="firstLevel" type="checkbox" name="level1"> Erster Stock  </input>  </td>
+                    <td> <input onclick="oneLevelDeselected('secondLevel')" {% if 'level2' in levels %} checked {% endif %} id="secondLevel" type="checkbox" name="level2"> Zweiter Stock </input>  </td>
                 </tr>
                 <tr>
-                    <td> <input onclick="oneLevelDeselected('thirdLevel')" id="thirdLevel" type="checkbox" name="level3"> Dritter Stock </input>  </td>
-                    <td> <input onclick="oneLevelDeselected('fourthLevel')" id="fourthLevel" type="checkbox" name="level4" /> Vierter Stock  </td>
+                    <td> <input onclick="oneLevelDeselected('thirdLevel')" {% if 'level3' in levels %} checked {% endif %} id="thirdLevel" type="checkbox" name="level3"> Dritter Stock </input>  </td>
+                    <td> <input onclick="oneLevelDeselected('fourthLevel')" {% if 'level4' in levels %} checked {% endif %} id="fourthLevel" type="checkbox" name="level4" /> Vierter Stock  </td>
                 </tr>
             </table>
         </fieldset>

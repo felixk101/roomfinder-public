@@ -6,7 +6,6 @@ import secret
 from django.template import loader
 from django.shortcuts import render
 
-# TODO: Bug-Fix: Wenn Werte nur teilweise okay sind => keine checkbox mehr selektiert!
 # TODO: Anderer Hintergrund notwendig!
 
 # Function getselectedbuildings()
@@ -122,8 +121,6 @@ def index(request):
     if 'bdaytime' in request.GET:
         bdaytime = request.GET['bdaytime']
         wrongdatetime = False
-        nobuilding = False
-        nolevel = False
 
         if not bdaytime:
             wrongdatetime = True
@@ -133,15 +130,14 @@ def index(request):
 
         levels = []
         nolevel = not getselectedlevels(request, levels)
-        print (levels)
-
-        if (wrongdatetime == False and nobuilding == False and nolevel == False):
+        if wrongdatetime is False and nobuilding is False and nolevel is False:
             return render(request, 'result.html', {})
         else:
             i = datetime.datetime.now()
             return render(request, 'index.html', {'wrongDateTime': wrongdatetime, 'noBuilding': nobuilding,
                                                   'noLevel': nolevel, 'month': i.month, 'year': i.year,
-                                                  'day': i.day, 'hour': i.hour, 'minute': i.minute})
+                                                  'day': i.day, 'hour': i.hour, 'minute': i.minute,
+                                                  'levels': levels, 'buildings': buildings})
 
     else:  # index view no request object available
         i = datetime.datetime.now()

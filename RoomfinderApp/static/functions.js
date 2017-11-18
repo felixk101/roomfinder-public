@@ -97,3 +97,12 @@ function oneLevelDeselected(id)
     }
 }
 
+/*
+* Function verifyCheckboxes()
+* verifies if all checkboxes of the buildings and/or all checkboxes of levels are selected already
+ */
+function verifyCheckboxes()
+{
+    oneLevelDeselected('firstLevel');
+    oneBuildingDeselected('buildingA');
+}
