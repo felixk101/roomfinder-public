@@ -12,62 +12,87 @@
       <p><img src="{% static "hsLogo.png" %}" alt="HsLogo"/></p>
       <h1 class="mainLine">RoomFinder</h1>
     </header>
-    <section>
-      <form>
+    <form action="" method="get">
+       <section>
         <fieldset>
-          <legend >Gebäude</legend>
+          <legend>Gebäude</legend>
             <table>
                 <tr>
-                    <td><input id="buildingA" type="checkbox" value="1"> A  </input> </td>
-                    <td> <input id="buildingB" type="checkbox" value="2"> B </input> </td>
-                    <td> <input id="buildingC" type="checkbox" value="4">C </input> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> <input onclick="allBuildingsSelected()" id="allBuildings" type="checkbox" >Alle Gebäude </input> </td>
                 </tr>
                 <tr>
-                    <td> <input id="buildingD" type="checkbox" value="8"> D  </input>  </td>
-                    <td> <input id="buildingE" type="checkbox" value="16"> E </input>  </td>
-                    <td> <input id="buildingF" type="checkbox" value="32">F </input>  </td>
+                    <td><input onclick="oneBuildingDeselected('buildingA')" id="buildingA" type="checkbox" name="A"> A  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingB')" id="buildingB" type="checkbox" name="B"> B </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingC')" id="buildingC" type="checkbox" name="C">C </input> </td>
                 </tr>
                 <tr>
-                    <td> <input id="buildingG" type="checkbox" value="64"> G  </input> </td>
-                    <td> <input id="buildingH" type="checkbox" value="128"> H </input> </input> </td>
-                    <td> <input id="buildingJ" type="checkbox" value="256">J </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingD')" id="buildingD" type="checkbox" name="D"> D  </input>  </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingE')" id="buildingE" type="checkbox" name="E"> E </input>  </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingF')" id="buildingF" type="checkbox" name="F">F </input>  </td>
                 </tr>
                 <tr>
-                    <td> <input id="buildingKLM" type="checkbox" value="512"> KLM  </input> </td>
-                    <td> <input id="buildingN" type="checkbox" value="1024"> N </input> </td>
-                    <td> <input id="buildingP" type="checkbox" value="2048">P </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingG')" id="buildingG" type="checkbox" name="G"> G  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingH')" id="buildingH" type="checkbox" name="H"> H </input> </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingJ')" id="buildingJ" type="checkbox" name="J">J </input> </td>
                 </tr>
                 <tr>
-                    <td> <input id="buildingR" type="checkbox" value="4096"> R  </input> </td>
-                    <td> <input id="buildingW" type="checkbox" value="8192"> W </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingKLM')" id="buildingKLM" type="checkbox" name="KLM"> KLM  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingN')" id="buildingN" type="checkbox" name="N"> N </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingP')" id="buildingP" type="checkbox" name="P">P </input> </td>
+                </tr>
+                <tr>
+                    <td> <input onclick="oneBuildingDeselected('buildingR')" id="buildingR" type="checkbox" name="R"> R  </input> </td>
+                    <td> <input onclick="oneBuildingDeselected('buildingW')" id="buildingW" type="checkbox" name="W"> W </input> </td>
                 </tr>
             </table>
         </fieldset>
-      </form>
-      <form>
+        {% if noBuilding %}
+          <p class="errorLine">
+            Bitte mindestens ein Gebäude auswählen!
+          </p>
+        {% endif %}
+      </section>
+      <section>
         <fieldset>
           <legend>Stockwerk</legend>
             <table>
                 <tr>
-                    <td> <input id="firstLevel" class="left" type="checkbox" value="1"> Erster Stock  </input>  </td>
-                    <td> <input id="secondLevel" class="right" type="checkbox" value="2"> Zweiter Stock </input>  </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> <input id="allLevel" type="checkbox" onclick="allLevelSelected()"> Alle Stockwerke </input> </td>
                 </tr>
                 <tr>
-                    <td> <input id="thirdLevel" class="left" type="checkbox" value="4"> Dritter Stock </input>  </td>
-                    <td> <input id="fourthLevel" class="right" type="checkbox" value="8"> Vierter Stock</input>  </td>
+                    <td> <input onclick="oneLevelDeselected('firstLevel')" id="firstLevel" type="checkbox" name="level1"> Erster Stock  </input>  </td>
+                    <td> <input onclick="oneLevelDeselected('secondLevel')" id="secondLevel" type="checkbox" name="level2"> Zweiter Stock </input>  </td>
+                </tr>
+                <tr>
+                    <td> <input onclick="oneLevelDeselected('thirdLevel')" id="thirdLevel" type="checkbox" name="level3"> Dritter Stock </input>  </td>
+                    <td> <input onclick="oneLevelDeselected('fourthLevel')" id="fourthLevel" type="checkbox" name="level4" /> Vierter Stock  </td>
                 </tr>
             </table>
         </fieldset>
-      </form>
+        {% if noLevel %}
+          <p class="errorLine">
+            Bitte mindestens ein Stockwerk auswählen!
+          </p>
+        {% endif %}
+      </section>
       <p>
-          Datum und Uhrzeit: <input type="datetime-local" name="bdaytime" value="{{ year }}-{{ month }}-{{ day }}T{{ hour }}:{{ minute }}:00">
+        Datum und Uhrzeit: <input type="datetime-local" name="bdaytime" value="{{ year }}-{{ month }}-{{ day }}T{{ hour }}:{{ minute }}:00">
       </p>
-    </section>
-    <section>
+      {% if wrongDateTime %}
+        <p class="errorLine">
+            Bitte das Datum und die Uhrzeit in der Form yyyy-mm-ddThh:mm:00 eintragen!
+        </p>
+      {% endif %}
       <p>
-        <button type="button" onclick="onButtonClick()">Freie Räume suchen</button>
+        <input type="submit" value="Freie Räume suchen">
       </p>
-    </section>
+    </form>
 </body>
 </html>
-<script src="{% static "functions.js" %}"></script>
+
+<script src="{%  static "functions.js" %}"></script>

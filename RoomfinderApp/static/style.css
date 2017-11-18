@@ -12,15 +12,20 @@ fieldset {
     margin-right: calc(4%);
 }
 
-form {
+section {
     padding: 1%;
 }
 
 table {
     width: 100%;
+    margin-left: 4%;
 }
 
-button {
-    padding: 1em;
+input[type="submit"] {
+    padding: 1%;
     border-radius: 6px;
+}
+
+.errorLine {
+    color: red;
 }

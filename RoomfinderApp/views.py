@@ -4,19 +4,152 @@ import webuntis
 import datetime
 import secret
 from django.template import loader
+from django.shortcuts import render
+
+# TODO: Bug-Fix: Wenn Werte nur teilweise okay sind => keine checkbox mehr selektiert!
+# TODO: Anderer Hintergrund notwendig!
+
+# Function getselectedbuildings()
+# returns True if buildings where found otherwise False
+# parameter: request object, buildings: list of buildings (returned)
+def getselectedbuildings(request, buildings):
+    returnvalue = False
+    if 'A' in request.GET:
+        gebaeude = request.GET['A']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('A')
+    if 'B' in request.GET:
+        gebaeude = request.GET['B']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('B')
+    if 'C' in request.GET:
+        gebaeude = request.GET['C']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('C')
+    if 'D' in request.GET:
+        gebaeude = request.GET['D']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('D')
+    if 'E' in request.GET:
+        gebaeude = request.GET['E']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('E')
+    if 'F' in request.GET:
+        gebaeude = request.GET['F']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('F')
+    if 'G' in request.GET:
+        gebaeude = request.GET['G']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('G')
+    if 'H' in request.GET:
+        gebaeude = request.GET['H']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('H')
+    if 'J' in request.GET:
+        gebaeude = request.GET['J']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('J')
+    if 'KLM' in request.GET:
+        gebaeude = request.GET['KLM']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('KLM')
+    if 'N' in request.GET:
+        gebaeude = request.GET['N']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('N')
+    if 'P' in request.GET:
+        gebaeude = request.GET['P']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('P')
+    if 'R' in request.GET:
+        gebaeude = request.GET['R']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('R')
+    if 'W' in request.GET:
+        gebaeude = request.GET['W']
+        if gebaeude:
+            returnvalue = True
+            buildings.append('W')
+    return returnvalue
+
+
+# Function getselectedlevels()
+# returns True if levels where found otherwise False
+# parameter: request object, levels: list of levels (returned)
+def getselectedlevels(request, levels):
+    returnvalue = False
+
+    if 'level1' in request.GET:
+        level = request.GET['level1']
+        if level:
+            returnvalue = True
+            levels.append('level1')
+    if 'level2' in request.GET:
+        level = request.GET['level2']
+        if level:
+            returnvalue = True
+            levels.append('level2')
+    if 'level3' in request.GET:
+        level = request.GET['level3']
+        if level:
+            returnvalue = True
+            levels.append('level3')
+    if 'level4' in request.GET:
+        level = request.GET['level4']
+        if level:
+            returnvalue = True
+            levels.append('level4')
+
+    return returnvalue
 
 
 # Start page: Select
 def index(request):
-    i = datetime.datetime.now()
-    t = loader.get_template('index.html')
-    html = t.render({'month': i.month, 'year': i.year, 'day': i.day, 'hour': i.hour, 'minute': i.minute})
-    return HttpResponse(html)
+    if 'bdaytime' in request.GET:
+        bdaytime = request.GET['bdaytime']
+        wrongdatetime = False
+        nobuilding = False
+        nolevel = False
+
+        if not bdaytime:
+            wrongdatetime = True
+
+        buildings = []
+        nobuilding = not getselectedbuildings(request, buildings)
+
+        levels = []
+        nolevel = not getselectedlevels(request, levels)
+        print (levels)
+
+        if (wrongdatetime == False and nobuilding == False and nolevel == False):
+            return render(request, 'result.html', {})
+        else:
+            i = datetime.datetime.now()
+            return render(request, 'index.html', {'wrongDateTime': wrongdatetime, 'noBuilding': nobuilding,
+                                                  'noLevel': nolevel, 'month': i.month, 'year': i.year,
+                                                  'day': i.day, 'hour': i.hour, 'minute': i.minute})
+
+    else:  # index view no request object available
+        i = datetime.datetime.now()
+        return render(request, 'index.html', {'month': i.month, 'year': i.year,
+                                              'day': i.day, 'hour': i.hour, 'minute': i.minute})
 
 
-# Result page is called by the index-View (or directly)
-def results(request):
-    return HttpResponse("Nothing here yet!")
+
 
 
 # Place test in this method
