@@ -6,8 +6,6 @@ import secret
 from django.template import loader
 from django.shortcuts import render
 
-# TODO: Anderer Hintergrund notwendig!
-
 # Function getselectedbuildings()
 # returns True if buildings where found otherwise False
 # parameter: request object, buildings: list of buildings (returned)
