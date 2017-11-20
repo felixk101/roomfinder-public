@@ -129,7 +129,8 @@ def index(request):
         levels = []
         nolevel = not getselectedlevels(request, levels)
         if wrongdatetime is False and nobuilding is False and nolevel is False:
-            return render(request, 'result.html', {})
+            room_info = get_room_info(bdaytime, buildings, levels)
+            return render(request, 'result.html', {'room_info':room_info})
         else:
             i = datetime.datetime.now()
             return render(request, 'index.html', {'wrongDateTime': wrongdatetime, 'noBuilding': nobuilding,
@@ -166,14 +167,48 @@ def test(request):
     s.logout()
     return HttpResponse("Hello World")
 
+def get_room_info(bdaytime, buildings, floors):
+    #jedes Gebäude ist jetzt ein einzelner Eintrag
+    if 'KLM' in buildings:
+        buildings.remove('KLM')
+        buildings.append('K')
+        buildings.append('L')
+        buildings.append('M')
+    #wir unteressieren uns nur für "2", nicht "level 2"
+    floors = [floor[-1] for floor in floors]
 
-def room_availability(s, room):
-    tt = s.timetable(room=room, start=datetime.date.today(), end=datetime.date.today()+datetime.timedelta(days=2))
+    s = webuntis.Session(
+        username=secret.username,
+        password=secret.password,
+        server='https://melpomene.webuntis.com',
+        school='HS-augsburg',
+        useragent='HSARoomfinder App (felix.kampfer@hs-augsburg.de)'
+    ).login()
+    all_rooms = s.rooms()
+    # wir wollen nur die Räume in den ausgewaehlten Gebäuden in den jeweiligen Stockwerken (anhand des Namens)
+    requested_rooms = filter(lambda room: room.name[0] in buildings and room.name[1] in floors, all_rooms)
+    room_info = []
+    for room in requested_rooms:
+        availability, time_until_change = room_availability(s, room, bdaytime)
+        room_info.append(Room(room.name, availability, time_until_change))
+        pass
+    s.logout()
+    return room_info
+
+
+
+def room_availability(s, room, bdaytime):
+    try:
+        requested_time = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M:%S')
+    except ValueError:
+        requested_time = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M')
+    tt = s.timetable(room=room, start=requested_time, end=requested_time+datetime.timedelta(days=2))
     room_available_now = True
     duration_until_occupied = datetime.timedelta(days=20)
     duration_until_available = datetime.timedelta(minutes=0)
     #note that untis uses gmt time, so this would show it for 8 hours in the future
-    now = datetime.datetime.now()+datetime.timedelta(hours=9)
+    #now = datetime.datetime.now()+datetime.timedelta(hours=9)
+    now = requested_time
     for event in tt:
         if now < event.start:
             # before the event
@@ -194,8 +229,11 @@ def room_availability(s, room):
         """
     if room_available_now:
         print("Room "+room.name+" is FREE for "+td_format(duration_until_occupied))
+        return room_available_now, duration_until_occupied
     else:
         print("Room "+room.name+" is OCCUPIED for "+td_format(duration_until_available))
+        return room_available_now, duration_until_available
+
 
 # thanks to Adam Jacob Muller from https://stackoverflow.com/a/13756038
 def td_format(td_object):
@@ -218,3 +256,17 @@ def td_format(td_object):
                 strings.append("%s %ss" % (period_value, period_name))
     return ", ".join(strings)
 
+
+class Room:
+
+    def __init__(self, name, free, duration_until_change):
+        self.name = name
+        self.free = free
+        self.duration_until_change = duration_until_change
+
+
+class Building:
+    rooms = []
+
+    def __init__(self, name):
+        self.name = name
