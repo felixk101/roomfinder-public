@@ -3,6 +3,7 @@ from django.http import HttpResponse
 import webuntis
 import datetime
 import secret
+from django.core import serializers
 from django.template import loader
 from django.shortcuts import render
 
@@ -130,7 +131,8 @@ def index(request):
         nolevel = not getselectedlevels(request, levels)
         if wrongdatetime is False and nobuilding is False and nolevel is False:
             room_info = get_room_info(bdaytime, buildings, levels)
-            return render(request, 'result.html', {'room_info':room_info})
+            json_data = convert_to_json(room_info)
+            return render(request, 'result.html', {"json_data": json_data})
         else:
             i = datetime.datetime.now()
             return render(request, 'index.html', {'wrongDateTime': wrongdatetime, 'noBuilding': nobuilding,
@@ -229,10 +231,23 @@ def room_availability(s, room, bdaytime):
         """
     if room_available_now:
         print("Room "+room.name+" is FREE for "+td_format(duration_until_occupied))
-        return room_available_now, duration_until_occupied
+        return room_available_now, td_format(duration_until_occupied)
     else:
         print("Room "+room.name+" is OCCUPIED for "+td_format(duration_until_available))
-        return room_available_now, duration_until_available
+        return room_available_now, td_format(duration_until_available)
+
+
+def convert_to_json(room_info):
+    my_string = "["
+    for room in room_info:
+        my_string += '{ ' \
+                     '\"name\":\"' + room.name + '\", ' \
+                     '\"free\":'+str(room.free).lower()+', ' \
+                     '\"duration_until_change\":\"'+room.duration_until_change+'\"' \
+                     '},'
+    my_string = my_string[:-1]
+    my_string += "]"
+    return my_string
 
 
 # thanks to Adam Jacob Muller from https://stackoverflow.com/a/13756038
