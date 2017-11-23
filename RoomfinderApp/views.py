@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import webuntis
 import datetime
+import pytz
 import secret
 from django.core import serializers
 from django.template import loader
@@ -165,6 +166,44 @@ def get_room_info(bdaytime, buildings, floors):
     #wir unteressieren uns nur für "2", nicht "level 2"
     floors = [floor[-1] for floor in floors]
 
+    room_info = []
+
+    for room in Room.objects.filter(building__in=Building.objects.filter(name__in=buildings), floor__in=floors):
+        # availability = not Event.objects.filter(room=room, start__lt=bdaytime, end__gt=bdaytime).exists()
+        availability = True
+        duration_until_occupied = datetime.timedelta(days=20)
+        duration_until_available = datetime.timedelta(minutes=0)
+
+        """
+        if available:
+            find shortest duration_until_occupied
+                find minimum (event.start- now) where (event.start - now) > 0
+        else
+            find shortest duration_until_free:
+                find minimum (event.end - now) where (event.end - now) > 0
+            
+        """
+        try:
+            now = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M:%S')
+        except ValueError:
+            now = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M')
+        timezone = pytz.timezone('Europe/Berlin')
+        now = timezone.localize(now)
+        for event in Event.objects.filter(room=room):
+            if now < event.start:
+                # before the event
+                if duration_until_occupied > event.start - now:
+                    duration_until_occupied = event.start - now
+            elif event.start <= now <= event.end:
+                # during the event
+                availability = False
+                if duration_until_available < event.end - now:
+                    duration_until_available = event.end - now
+        time_until_change = (duration_until_occupied if availability else duration_until_available)
+        room_info.append(RoomView(room.name, availability, time_until_change))
+        return room_info
+
+    """
     s = webuntis.Session(
         username=secret.username,
         password=secret.password,
@@ -179,11 +218,12 @@ def get_room_info(bdaytime, buildings, floors):
     print(requested_rooms)
     for room in requested_rooms:
         availability, time_until_change = room_availability(s, room, bdaytime)
-        room_info.append(Room(room.name, availability, time_until_change))
+        room_info.append(RoomView(room.name, availability, time_until_change))
         pass
     s.logout()
     return room_info
-
+    """
+    return None
 
 
 def room_availability(s, room, bdaytime):
@@ -230,7 +270,7 @@ def convert_to_json(room_info):
         my_string += '{ ' \
                      '\"name\":\"' + room.name + '\", ' \
                      '\"free\":'+str(room.free).lower()+', ' \
-                     '\"duration_until_change\":\"'+room.duration_until_change+'\"' \
+                     '\"duration_until_change\":\"'+str(room.duration_until_change)+'\"' \
                      '},'
     my_string = my_string[:-1]
     my_string += "]"
@@ -285,8 +325,9 @@ def update_database():
         untis_events = s.timetable(room=untis_room,start=datetime.datetime.now(),end=(datetime.datetime.now()+datetime.timedelta(days=7)))
         for untis_event in untis_events:
             subject = untis_event.subjects[0].name if len(untis_event.subjects) > 0 else "Unnamed Subject"
-            event = Event(start=untis_event.start,
-                          end=untis_event.end,
+            timezone = pytz.timezone('Europe/Berlin')
+            event = Event(start=timezone.localize(untis_event.start),
+                          end=timezone.localize(untis_event.end),
                           room=Room.objects.get(name=untis_room.name),
                           subject=subject
                           )
@@ -316,18 +357,10 @@ def td_format(td_object):
                 strings.append("%s %ss" % (period_value, period_name))
     return ", ".join(strings)
 
-"""
-class Room:
+
+class RoomView:
 
     def __init__(self, name, free, duration_until_change):
         self.name = name
         self.free = free
         self.duration_until_change = duration_until_change
-
-
-class Building:
-    rooms = []
-
-    def __init__(self, name):
-        self.name = name
-"""

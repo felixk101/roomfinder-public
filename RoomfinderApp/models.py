@@ -28,8 +28,8 @@ class Room(models.Model):
 
 
 class Event(models.Model):
-    start = models.DateField()
-    end = models.DateField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     subject = models.CharField(max_length=200)
 
