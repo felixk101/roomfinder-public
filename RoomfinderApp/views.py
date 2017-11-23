@@ -6,6 +6,7 @@ import secret
 from django.core import serializers
 from django.template import loader
 from django.shortcuts import render
+from RoomfinderApp.models import Building,Room,Event
 
 # Function getselectedbuildings()
 # returns True if buildings where found otherwise False
@@ -151,23 +152,8 @@ def index(request):
 
 # Place test in this method
 def test(request):
-    s = webuntis.Session(
-        username=secret.username,
-        password=secret.password,
-        server='https://melpomene.webuntis.com',
-        school='HS-augsburg',
-        useragent='HSARoomfinder App (felix.kampfer@hs-augsburg.de)'
-    ).login()
-
-    all_rooms = s.rooms()
-    print(str(len(all_rooms)) + " rooms found.")
-    rooms_of_interest = [1, 2, 3, 74]
-    for item in rooms_of_interest:
-        room = all_rooms.filter(id=item)[0]  # room m1.01
-        room_availability(s, room)
-
-    s.logout()
-    return HttpResponse("Hello World")
+    update_database()
+    return HttpResponse("Done updating")
 
 def get_room_info(bdaytime, buildings, floors):
     #jedes Gebäude ist jetzt ein einzelner Eintrag
@@ -190,6 +176,7 @@ def get_room_info(bdaytime, buildings, floors):
     # wir wollen nur die Räume in den ausgewaehlten Gebäuden in den jeweiligen Stockwerken (anhand des Namens)
     requested_rooms = filter(lambda room: room.name[0] in buildings and room.name[1] in floors, all_rooms)
     room_info = []
+    print(requested_rooms)
     for room in requested_rooms:
         availability, time_until_change = room_availability(s, room, bdaytime)
         room_info.append(Room(room.name, availability, time_until_change))
@@ -250,6 +237,64 @@ def convert_to_json(room_info):
     return my_string
 
 
+def update_database():
+    s = webuntis.Session(
+        username=secret.username,
+        password=secret.password,
+        server='https://melpomene.webuntis.com',
+        school='HS-augsburg',
+        useragent='HSARoomfinder App (felix.kampfer@hs-augsburg.de)'
+    ).login()
+
+    # reset table
+    Building.objects.all().delete()
+
+    # insert buildings in database
+    brunnenlech_buildings = ["A", "B", "C", "D", "E", "F", "G", "H", "N", "R"]
+    for building_name in brunnenlech_buildings:
+        building = Building(campus="brunnenlech",name=building_name)
+        building.save()
+    rotes_tor_buildings = ["K", "L", "M", "J", "W"]
+    for building_name in rotes_tor_buildings:
+        building = Building(campus="rotes_tor", name=building_name)
+        building.save()
+
+    # insert rooms in database
+    all_untis_rooms = s.rooms()
+    print("Inserting "+str(len(all_untis_rooms)) + " rooms.")
+    for index, untis_room in enumerate(all_untis_rooms):
+        print("handling room "+untis_room.name)
+        # handle special cases
+        if Room.objects.all().filter(name=untis_room.name).exists():
+            print("ignoring DUPLICATE room " + untis_room.name)
+            continue
+        if not untis_room.name[0] in brunnenlech_buildings + rotes_tor_buildings:
+            print("ignoring room " + untis_room.name + " in a building that doesn't exist")
+            continue
+        if not untis_room.name[1].isdigit():
+            print("ignoring weirdly-named room " + untis_room.name)
+            continue
+
+        room = Room(name=untis_room.name,
+                    long_name=untis_room.long_name,
+                    building=Building.objects.get(name=untis_room.name[0]),
+                    floor=int(untis_room.name[1])
+                    )
+        room.save()
+        # insert events in database
+        untis_events = s.timetable(room=untis_room,start=datetime.datetime.now(),end=(datetime.datetime.now()+datetime.timedelta(days=7)))
+        for untis_event in untis_events:
+            subject = untis_event.subjects[0].name if len(untis_event.subjects) > 0 else "Unnamed Subject"
+            event = Event(start=untis_event.start,
+                          end=untis_event.end,
+                          room=Room.objects.get(name=untis_room.name),
+                          subject=subject
+                          )
+            event.save()
+        print("Inserted room "+untis_room.name+" with "+str(len(untis_events)) + " events. ("+str(index)+"/"+str(len(all_untis_rooms))+")")
+    s.logout()
+
+
 # thanks to Adam Jacob Muller from https://stackoverflow.com/a/13756038
 def td_format(td_object):
     seconds = int(td_object.total_seconds())
@@ -271,7 +316,7 @@ def td_format(td_object):
                 strings.append("%s %ss" % (period_value, period_name))
     return ", ".join(strings)
 
-
+"""
 class Room:
 
     def __init__(self, name, free, duration_until_change):
@@ -285,3 +330,4 @@ class Building:
 
     def __init__(self, name):
         self.name = name
+"""
