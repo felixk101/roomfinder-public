@@ -155,6 +155,8 @@ def update(request):
 
 def result(request, building):
     buildings = [building]
+    if "K" in buildings or "L" in buildings or "M" in buildings:
+        buildings.append("KLM")
     room_info = get_room_info(datetime.datetime.now(), buildings, ["0", "1", "2", "3", "4", "5", "6"])
     json_data = convert_to_json(room_info)
     return render(request, 'result.html', {"buildings": buildings, "room_info": room_info, "json_data": json_data})
