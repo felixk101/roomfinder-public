@@ -29,8 +29,8 @@
                 var circle = svgDoc.getElementById(circleName);
                 if (circle !== null) {
                     circle.addEventListener("mousedown", function() {
-                        console.log("you clicked on ",this);
-                        window.location.href="/building/"+buildings[buildingIndex]
+                        console.log("you clicked on ",this.id.slice(-1));
+                        window.location.href="/building/"+this.id.slice(-1)
                     }, false);
                 } else {
                     console.log("couldn't find "+circleName);
