@@ -1,35 +1,7 @@
-body {
-    background: #f2f2f2;
+html,body {
+
+   height: 94%;
+   width: 94%;
+
 }
 
-p, h1, h2, h3 {
- text-align: center;
-}
-
-legend {
-    margin-left: calc(48%);
-    border: 1px solid black;
-}
-
-fieldset {
-    margin-left: calc(4%);
-    margin-right: calc(4%);
-}
-
-section {
-    padding: 1%;
-}
-
-table {
-    width: 100%;
-    margin-left: 4%;
-}
-
-input[type="submit"] {
-    padding: 1%;
-    border-radius: 6px;
-}
-
-.errorLine {
-    color: red;
-}

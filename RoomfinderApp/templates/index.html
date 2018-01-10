@@ -8,16 +8,47 @@
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
 </head>
 <body>
+    <span>
+        <object id="rotesTorSVG" style="height:45%;" data="{% static "rotesTor.svg" %}" type="image/svg+xml"></object>
+        <object id="brunnenlechSVG" style="height:45%;" data="{% static "maptest.svg" %}" type="image/svg+xml"></object>
+    </span>
 
-    <div>
+    <script>
+        //This script turns the SVGs into image maps for requesting specific buildings
+        var buildings = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "W"];
 
+        var rotesTor = document.getElementById("rotesTorSVG");
+        var brunnenlech = document.getElementById("brunnenlechSVG");
 
-        <object id="svg1" data="{% static "rotesTor.svg" %}" type="image/svg+xml"></object>
-        <object id="svg2" data="{% static "maptest.svg" %}" type="image/svg+xml"></object>
+        function makeCirclesClickable(svgElement) {
+            // get the inner DOM of the svg
+            var svgDoc = svgElement;
+            for (var buildingIndex in buildings) {
+                var circleName = "circle"+buildings[buildingIndex];
+                // get the inner element by id
+                var circle = svgDoc.getElementById(circleName);
+                if (circle !== null) {
+                    circle.addEventListener("mousedown", function() {
+                        console.log("you clicked on ",this);
+                        window.location.href="/building/"+buildings[buildingIndex]
+                    }, false);
+                } else {
+                    console.log("couldn't find "+circleName);
+                }
+            }
+        }
 
-    </div>
+        // It's important to add a load event listener to the object,
+        // as it will load the svg doc asynchronously
+        rotesTor.addEventListener("load",function(){
+            console.log("preparing rotesTor");
+            makeCirclesClickable(rotesTor.contentDocument);
+        }, false);
+        brunnenlech.addEventListener("load",function(){
+            console.log("preparing brunnenlech");
+            makeCirclesClickable(brunnenlech.contentDocument);
+        }, false);
 
-
+    </script>
 </body>
 </html>
-

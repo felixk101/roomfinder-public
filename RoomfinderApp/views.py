@@ -147,11 +147,19 @@ def index(request):
         return render(request, 'index.html', {'month': i.month, 'year': i.year,
                                               'day': i.day, 'hour': i.hour, 'minute': i.minute})
 
+
 def update(request):
     update_database()
     return HttpResponse("Done updating")
 
-def get_room_info(bdaytime, buildings, floors):
+
+def result(request, building):
+    buildings = [building]
+    room_info = get_room_info(datetime.datetime.now(), buildings, ["0", "1", "2", "3", "4", "5", "6"])
+    json_data = convert_to_json(room_info)
+    return render(request, 'result.html', {"buildings": buildings, "room_info": room_info, "json_data": json_data})
+
+def get_room_info(daytime, buildings, floors):
     #jedes Gebäude ist jetzt ein einzelner Eintrag
     if 'KLM' in buildings:
         buildings.remove('KLM')
@@ -178,12 +186,8 @@ def get_room_info(bdaytime, buildings, floors):
                 find minimum (event.end - now) where (event.end - now) > 0
             
         """
-        try:
-            now = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M:%S')
-        except ValueError:
-            now = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M')
         timezone = pytz.timezone('Europe/Berlin')
-        now = timezone.localize(now)
+        now = timezone.localize(daytime)
         for event in Event.objects.filter(room=room):
             if now < event.start:
                 # before the event
@@ -196,29 +200,7 @@ def get_room_info(bdaytime, buildings, floors):
                     duration_until_available = event.end - now
         time_until_change = (duration_until_occupied if availability else duration_until_available)
         room_info.append(RoomView(room.name, availability, time_until_change))
-        return room_info
-
-    """
-    s = webuntis.Session(
-        username=secret.username,
-        password=secret.password,
-        server='https://melpomene.webuntis.com',
-        school='HS-augsburg',
-        useragent='HSARoomfinder App (felix.kampfer@hs-augsburg.de)'
-    ).login()
-    all_rooms = s.rooms()
-    # wir wollen nur die Räume in den ausgewaehlten Gebäuden in den jeweiligen Stockwerken (anhand des Namens)
-    requested_rooms = filter(lambda room: room.name[0] in buildings and room.name[1] in floors, all_rooms)
-    room_info = []
-    print(requested_rooms)
-    for room in requested_rooms:
-        availability, time_until_change = room_availability(s, room, bdaytime)
-        room_info.append(RoomView(room.name, availability, time_until_change))
-        pass
-    s.logout()
     return room_info
-    """
-    return None
 
 
 def room_availability(s, room, bdaytime):

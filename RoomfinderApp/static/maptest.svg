@@ -5769,7 +5769,7 @@
      id="layer1"
      inkscape:label="Circle Labels">
     <path
-       style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996277;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:white;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996277;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 598.99815,455.60937 a 84.615334,84.615334 0 0 1 -84.61534,84.61534 84.615334,84.615334 0 0 1 -84.61533,-84.61534 84.615334,84.615334 0 0 1 84.61533,-84.61533 84.615334,84.615334 0 0 1 84.61534,84.61533 z"
        id="circleA" />
     <g

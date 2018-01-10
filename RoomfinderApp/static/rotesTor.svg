@@ -4120,24 +4120,24 @@
        d="M 789.71875 198.933594 L 789.25 200.222656 L 788.066406 200.90625 L 786.71875 200.667969 L 785.839844 199.621094 L 785.839844 198.25 L 786.71875 197.203125 L 788.066406 196.964844 L 789.25 197.648438 Z M 789.71875 198.933594 "
        id="path10920" />
     <path
-       style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:white;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 653.0629,749.07475 a 84.615337,84.615337 0 0 1 -84.61535,84.61535 84.615337,84.615337 0 0 1 -84.61533,-84.61535 84.615337,84.615337 0 0 1 84.61533,-84.61533 84.615337,84.615337 0 0 1 84.61535,84.61533 z"
-       id="path2778"
+       id="circleJ"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:white;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 903.31241,538.6 A 84.615337,84.615337 0 0 1 818.69707,623.21534 84.615337,84.615337 0 0 1 734.08173,538.6 84.615337,84.615337 0 0 1 818.69707,453.98467 84.615337,84.615337 0 0 1 903.31241,538.6 Z"
-       id="path2778-4"
+       id="circleW"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:white;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 646.43377,480.59514 a 84.615337,84.615337 0 0 1 -84.61535,84.61535 84.615337,84.615337 0 0 1 -84.61533,-84.61535 84.615337,84.615337 0 0 1 84.61533,-84.61533 84.615337,84.615337 0 0 1 84.61535,84.61533 z"
-       id="path2778-5"
+       id="circleM"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:white;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 440.93086,270.12039 a 84.615337,84.615337 0 0 1 -84.61534,84.61535 84.615337,84.615337 0 0 1 -84.61533,-84.61535 84.615337,84.615337 0 0 1 84.61533,-84.61533 84.615337,84.615337 0 0 1 84.61534,84.61533 z"
-       id="path2778-0"
+       id="circleL"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -4181,7 +4181,7 @@ K"
       <path
          d="m 903.6582,237.27214 h 5.26042 v 16.43229 l 17.44792,-16.43229 h 6.77083 l -19.29688,18.12499 20.67709,20.75521 h -6.92709 l -18.67187,-18.72396 v 18.72396 h -5.26042 z"
          style="font-size:53.33333206px"
-         id="circleW" />
+         id="fakecircleW" />
     </g>
     <g
        aria-label="Gebäude
@@ -4220,7 +4220,7 @@ W"
       <path
          d="m 891.3405,237.27214 h 5.3125 l 8.17708,32.86458 8.15104,-32.86458 h 5.91146 l 8.17708,32.86458 8.15104,-32.86458 h 5.33854 l -9.76562,38.8802 h -6.61458 l -8.20313,-33.75 -8.28125,33.75 h -6.61458 z"
          style="font-size:53.33333206px"
-         id="circleM" />
+         id="fakecircleM" />
     </g>
     <g
        aria-label="Gebäude
@@ -4259,7 +4259,7 @@ M"
       <path
          d="m 898.13737,237.27214 h 7.83854 l 9.92188,26.45833 9.97395,-26.45833 h 7.83855 v 38.8802 h -5.13021 v -34.14062 l -10.02604,26.66666 h -5.28646 l -10.02604,-26.66666 v 34.14062 h -5.10417 z"
          style="font-size:53.33333206px"
-         id="circleL" />
+         id="fakecircleL" />
     </g>
     <g
        aria-label="Gebäude
@@ -4298,7 +4298,7 @@ L"
       <path
          d="m 906.31445,237.27214 h 5.26042 v 34.45312 h 18.93229 v 4.42708 h -24.19271 z"
          style="font-size:53.33333206px"
-         id="circleJ" />
+         id="fakecircleJ" />
     </g>
     <g
        aria-label="Gebäude
