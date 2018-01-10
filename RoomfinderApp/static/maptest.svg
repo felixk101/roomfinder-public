@@ -5771,7 +5771,7 @@
     <path
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996277;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 598.99815,455.60937 a 84.615334,84.615334 0 0 1 -84.61534,84.61534 84.615334,84.615334 0 0 1 -84.61533,-84.61534 84.615334,84.615334 0 0 1 84.61533,-84.61533 84.615334,84.615334 0 0 1 84.61534,84.61533 z"
-       id="path2778" />
+       id="circleA" />
     <g
        aria-label="Gebäude
 A"
@@ -5814,7 +5814,7 @@ A"
     <path
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 752.58408,272.35937 a 84.615334,84.615334 0 0 1 -84.61533,84.61534 84.615334,84.615334 0 0 1 -84.61533,-84.61534 84.615334,84.615334 0 0 1 84.61533,-84.61533 84.615334,84.615334 0 0 1 84.61533,84.61533 z"
-       id="path2778-1" />
+       id="circleB" />
     <g
        aria-label="Gebäude
 B"
@@ -5856,7 +5856,7 @@ B"
     </g>
     <circle
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path2778-6"
+       id="circleC"
        cx="876.5625"
        cy="146.96875"
        r="84.615334" />
@@ -5902,7 +5902,7 @@ C"
     <path
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 799.45908,465.71875 a 84.615334,84.615334 0 0 1 -84.61533,84.61533 84.615334,84.615334 0 0 1 -84.61533,-84.61533 84.615334,84.615334 0 0 1 84.61533,-84.61533 84.615334,84.615334 0 0 1 84.61533,84.61533 z"
-       id="path2778-0" />
+       id="circleF" />
     <g
        aria-label="Gebäude
 F"
@@ -5945,7 +5945,7 @@ F"
     <path
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 590.86533,645.01562 A 84.615334,84.615334 0 0 1 506.25,729.63096 84.615334,84.615334 0 0 1 421.63467,645.01562 84.615334,84.615334 0 0 1 506.25,560.40029 a 84.615334,84.615334 0 0 1 84.61533,84.61533 z"
-       id="path2778-64" />
+       id="circleE" />
     <g
        aria-label="Gebäude
 E"
@@ -5987,7 +5987,7 @@ E"
     </g>
     <circle
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path2778-7"
+       id="circleD"
        cx="703.125"
        cy="707.125"
        r="84.615334" />
@@ -6033,7 +6033,7 @@ D"
     <path
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 958.83408,593.45312 a 84.615334,84.615334 0 0 1 -84.61533,84.61534 84.615334,84.615334 0 0 1 -84.61533,-84.61534 84.615334,84.615334 0 0 1 84.61533,-84.61533 84.615334,84.615334 0 0 1 84.61533,84.61533 z"
-       id="path2778-9" />
+       id="circleG" />
     <g
        aria-label="Gebäude
 G"
@@ -6076,7 +6076,7 @@ G"
     <path
        style="fill:#ffffff;fill-opacity:0.78431373;stroke:#000000;stroke-width:1.90996289;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 179.53722,416.5 A 84.615334,84.615334 0 0 1 94.92189,501.11533 84.615334,84.615334 0 0 1 10.306557,416.5 84.615334,84.615334 0 0 1 94.92189,331.88467 84.615334,84.615334 0 0 1 179.53722,416.5 Z"
-       id="path2778-98" />
+       id="circleH" />
     <g
        aria-label="Gebäude
 H"

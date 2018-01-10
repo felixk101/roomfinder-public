@@ -121,7 +121,7 @@
     <h3>Dritter Stock</h3>
     {% include "W-Bau_3.OG.svg" %}
 
-<script>
+    <script>
     (function() {
         var roomData = JSON.parse('{{ json_data|safe }}');
         for (var room in roomData) {
@@ -138,9 +138,7 @@
                 console.log(roomData[room].name+" sollte jetzt rot sein");
             }
         }
-
     })();
-
     </script>
 </body>
 </html>

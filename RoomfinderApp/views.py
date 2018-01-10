@@ -134,7 +134,7 @@ def index(request):
         if wrongdatetime is False and nobuilding is False and nolevel is False:
             room_info = get_room_info(bdaytime, buildings, levels)
             json_data = convert_to_json(room_info)
-            return render(request, 'result.html', {"json_data": json_data})
+            return render(request, 'result.html', {"buildings": buildings, "room_info": room_info, "json_data": json_data})
         else:
             i = datetime.datetime.now()
             return render(request, 'index.html', {'wrongDateTime': wrongdatetime, 'noBuilding': nobuilding,
@@ -147,12 +147,7 @@ def index(request):
         return render(request, 'index.html', {'month': i.month, 'year': i.year,
                                               'day': i.day, 'hour': i.hour, 'minute': i.minute})
 
-
-
-
-
-# Place test in this method
-def test(request):
+def update(request):
     update_database()
     return HttpResponse("Done updating")
 
@@ -289,7 +284,7 @@ def update_database():
     # reset table
     Building.objects.all().delete()
 
-    # insert buildings in database
+    # insert buildings into database
     brunnenlech_buildings = ["A", "B", "C", "D", "E", "F", "G", "H", "N", "R"]
     for building_name in brunnenlech_buildings:
         building = Building(campus="brunnenlech",name=building_name)
@@ -299,7 +294,7 @@ def update_database():
         building = Building(campus="rotes_tor", name=building_name)
         building.save()
 
-    # insert rooms in database
+    # insert rooms into database
     all_untis_rooms = s.rooms()
     print("Inserting "+str(len(all_untis_rooms)) + " rooms.")
     for index, untis_room in enumerate(all_untis_rooms):
@@ -332,7 +327,7 @@ def update_database():
                           subject=subject
                           )
             event.save()
-        print("Inserted room "+untis_room.name+" with "+str(len(untis_events)) + " events. ("+str(index)+"/"+str(len(all_untis_rooms))+")")
+        print("Inserted room "+untis_room.name+" with "+str(len(untis_events)) + " events. ("+str(index+1)+"/"+str(len(all_untis_rooms))+")")
     s.logout()
 
 
