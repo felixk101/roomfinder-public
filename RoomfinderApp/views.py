@@ -29,7 +29,7 @@ def result(request, building):
         buildings.append("L")
         buildings.append("M")
         buildings = list(set(buildings))
-    room_info = get_room_info(datetime.datetime.now(), buildings, floors)
+    room_info = get_room_info(datetime.datetime.now()+datetime.timedelta(hours=27), buildings, floors)
     json_data = convert_to_json(room_info)
     return render(request, 'result.html', {"buildings": buildings, "floors": floors, "room_info": room_info, "json_data": json_data})
 
@@ -39,6 +39,8 @@ def get_room_info(daytime, buildings, floors):
     for room in Room.objects.filter(building__in=Building.objects.filter(name__in=buildings), floor__in=floors):
         # availability = not Event.objects.filter(room=room, start__lt=bdaytime, end__gt=bdaytime).exists()
         availability = True
+        course = "Niemand"
+        subject = "Keine Veranstaltung"
         duration_until_occupied = datetime.timedelta(days=20)
         duration_until_available = datetime.timedelta(minutes=0)
 
@@ -61,10 +63,12 @@ def get_room_info(daytime, buildings, floors):
             elif event.start <= now <= event.end:
                 # during the event
                 availability = False
+                course = event.course
+                subject = event.subject
                 if duration_until_available < event.end - now:
                     duration_until_available = event.end - now
         time_until_change = (duration_until_occupied if availability else duration_until_available)
-        room_info.append(RoomView(room.name, availability, time_until_change))
+        room_info.append(RoomView(room.name, course, subject, availability, time_until_change))
     if "K" in buildings:
         buildings.remove("K")
         buildings.remove("L")
@@ -73,51 +77,15 @@ def get_room_info(daytime, buildings, floors):
     return room_info
 
 
-def room_availability(s, room, bdaytime):
-    try:
-        requested_time = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M:%S')
-    except ValueError:
-        requested_time = datetime.datetime.strptime(bdaytime, '%Y-%m-%dT%H:%M')
-    tt = s.timetable(room=room, start=requested_time, end=requested_time+datetime.timedelta(days=2))
-    room_available_now = True
-    duration_until_occupied = datetime.timedelta(days=20)
-    duration_until_available = datetime.timedelta(minutes=0)
-    #note that untis uses gmt time, so this would show it for 8 hours in the future
-    #now = datetime.datetime.now()+datetime.timedelta(hours=9)
-    now = requested_time
-    for event in tt:
-        if now < event.start:
-            # before the event
-            if duration_until_occupied > event.start-now:
-                duration_until_occupied = event.start-now
-        elif event.start <= now <= event.end:
-            # during the event
-            room_available_now = False
-            if duration_until_available < event.end-now:
-                duration_until_available = event.end-now
-
-        #print('from ' + str(event.start) + ' until ' + str(event.end) + '(type = ' + event.type + '):')
-        """
-        for subject in event.subjects:
-            print('  ' + subject.long_name)
-        for klasse in event.klassen:
-            print('  attended by: ' + klasse.long_name)
-        """
-    if room_available_now:
-        print("Room "+room.name+" is FREE for "+td_format(duration_until_occupied))
-        return room_available_now, td_format(duration_until_occupied)
-    else:
-        print("Room "+room.name+" is OCCUPIED for "+td_format(duration_until_available))
-        return room_available_now, td_format(duration_until_available)
-
-
 def convert_to_json(room_info):
-    my_string = "["
+    my_string = "[ "
     for room in room_info:
         my_string += '{ ' \
                      '\"name\":\"' + room.name + '\", ' \
-                     '\"free\":'+str(room.free).lower()+', ' \
-                     '\"duration_until_change\":\"'+str(room.duration_until_change)+'\"' \
+                     '\"course\":\"'+str(room.course)+'\", ' \
+                     '\"subject\":\"'+str(room.subject)+'\", ' \
+                     '\"free\":' + str(room.free).lower() + ', ' \
+                     '\"durationUntilChange\":\"'+td_format(room.duration_until_change)+'\"' \
                      '},'
     my_string = my_string[:-1]
     my_string += "]"
@@ -171,12 +139,14 @@ def update_database():
         # insert events in database
         untis_events = s.timetable(room=untis_room,start=datetime.datetime.now(),end=(datetime.datetime.now()+datetime.timedelta(days=7)))
         for untis_event in untis_events:
-            subject = untis_event.subjects[0].name if len(untis_event.subjects) > 0 else "Unnamed Subject"
+            subject = untis_event.subjects[0].long_name if len(untis_event.subjects) > 0 else "Unbekannte Veranstaltung"
+            course = untis_event.klassen[0].long_name if len(untis_event.klassen) > 0 else "Unbekannter Kurs"
             timezone = pytz.timezone('Europe/Berlin')
             event = Event(start=timezone.localize(untis_event.start),
                           end=timezone.localize(untis_event.end),
                           room=Room.objects.get(name=untis_room.name),
-                          subject=subject
+                          subject=subject,
+                          course=course
                           )
             event.save()
         print("Inserted room "+untis_room.name+" with "+str(len(untis_events)) + " events. ("+str(index+1)+"/"+str(len(all_untis_rooms))+")")
@@ -186,27 +156,48 @@ def update_database():
 # thanks to Adam Jacob Muller from https://stackoverflow.com/a/13756038
 def td_format(td_object):
     seconds = int(td_object.total_seconds())
+    if seconds > 60*60*24*19:
+        return "die absehbare Zukunft"
     periods = [
-        ('more year',        60*60*24*365),
-        ('more month',       60*60*24*30),
-        ('more day',         60*60*24),
-        ('more hour',        60*60),
-        ('more minute',      60),
-        ('more second',      1)
+        ('Jahre',        60*60*24*365),
+        ('Monate',       60*60*24*30),
+        ('Tag',         60*60*24),
+        ('Stunde',        60*60),
+        ('Minute',      60)
         ]
     strings = []
     for period_name, period_seconds in periods:
         if seconds > period_seconds:
             period_value, seconds = divmod(seconds, period_seconds)
             if period_value == 1:
-                strings.append("%s %s" % (period_value, period_name))
+                strings.append(einen_eine(period_name))
             else:
-                strings.append("%s %ss" % (period_value, period_name))
+                strings.append(str(period_value) + " " +pluralize(period_name))
     return ", ".join(strings)
 
 
+def einen_eine(period_name):
+    if period_name == 'Tag':
+        return "einen Tag"
+    if period_name == 'Stunde':
+        return "eine Stunde"
+    if period_name == 'Minute':
+        return "eine Minute"
+
+
+def pluralize(period_name):
+    if period_name == 'Tag':
+        return "Tage"
+    if period_name == 'Stunde':
+        return "Stunden"
+    if period_name == 'Minute':
+        return "Minuten"
+
+
 class RoomView:
-    def __init__(self, name, free, duration_until_change):
+    def __init__(self, name, course, subject, free, duration_until_change):
         self.name = name
+        self.course = course
+        self.subject = subject
         self.free = free
         self.duration_until_change = duration_until_change

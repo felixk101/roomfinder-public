@@ -32,6 +32,7 @@ class Event(models.Model):
     end = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     subject = models.CharField(max_length=200)
+    course = models.CharField(max_length=200)
 
     def __str__(self):
         return "Veranstaltung von "+self.start+" bis "+self.end+" in "+self.room

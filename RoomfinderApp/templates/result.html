@@ -29,16 +29,24 @@
                     type="image/svg+xml"></object>
         {% endfor %}
     {% endfor %}
-
+    <div id="mypopup">
+      <h3>Popup title</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
     <script>
     (function() {
         var roomData = JSON.parse('{{ json_data|safe }}');
+        var roomDataMapped = {};
+        roomData.map(function(roomItem) {
+            roomDataMapped[roomItem.name] = roomItem;
+        });
         var floorGraphics = document.getElementsByClassName("floorGraphic");
         for (var i = 0; i < floorGraphics.length; i++) {
             floorGraphics[i].addEventListener("load",function(){
                 var floorGraphic = this.contentDocument;
                 //floorGraphic.firstElementChild.setAttribute("viewBox", "0 0 595.275 319.527")
-                floorGraphic.firstElementChild.setAttribute("transform","matrix(1.5,0,0,1.5,-60,-60)");
+                //floorGraphic.firstElementChild.setAttribute("transform","matrix(1.5,0,0,1.5,-60,-60)");
                 floorGraphic.firstElementChild.removeAttribute("height");
                 floorGraphic.firstElementChild.removeAttribute("width");
 
@@ -46,17 +54,53 @@
                 for (var room in roomData) {
                     var roomGraphic = floorGraphic.getElementById(roomData[room].name);
                     if (roomGraphic == undefined) {
-                        //console.log("couldn't find an element with id "+roomData[room].name);
                         continue;
-                    } else {
-                        if (roomData[room]["free"]) {
-                            roomGraphic.setAttribute("fill","green");
-                            console.log(roomData[room].name+" sollte jetzt gruen sein");
-                        } else {
-                            roomGraphic.setAttribute("fill","red");
-                            console.log(roomData[room].name+" sollte jetzt rot sein");
-                        }
                     }
+                    roomGraphic.addEventListener("mouseover", showPopup, false);
+                    roomGraphic.addEventListener("mouseout", hidePopup, false);
+                    var mypopup = document.getElementById("mypopup");
+
+                    function showPopup(e) {
+                      console.log("hover detected over "+e.target.id);
+                      console.log(e);
+                      var mypopup = document.getElementById("mypopup");
+                      mypopup.innerHTML='<div id=popuptext>'
+                      mypopup.innerHTML=mypopup.innerHTML+'<h3>'+e.target.id+'</h3>';
+                      var timeRemaining = roomDataMapped[e.target.id].durationUntilChange;
+
+                      if (roomDataMapped[e.target.id].free) {
+                          mypopup.className ='green';
+                          console.log(mypopup);
+                           mypopup.innerHTML = mypopup.innerHTML + '<p>Für '+timeRemaining+' <b>nicht belegt</b></p>'
+                      } else {
+                          mypopup.className ='red';
+                        console.log(mypopup);
+                          mypopup.innerHTML = mypopup.innerHTML + '<p>Für '+timeRemaining+' <b>belegt</b></p>'
+                                + '<p>Veranstaltung: '+roomDataMapped[e.target.id].subject+'</p>'
+                                + '<p>Kurs: '+roomDataMapped[e.target.id].course+'</p>';
+                      }
+                      mypopup.innerHTML=mypopup.innerHTML+'</div>'
+                      var iconPos = e.target.getBoundingClientRect();
+                      mypopup.style.left = (e.screenX) + "px";
+                      //mypopup.style.bottom = (iconPos.top + 0) + "px";
+                      mypopup.style.top = (window.scrollY + e.screenY-100)+"px";//(window.scrollY + iconPos.top) + "px";
+                      mypopup.style.display = "block";
+                    }
+
+                    function hidePopup(e) {
+                      console.log("mouseout");
+                      var mypopup = document.getElementById("mypopup");
+                      mypopup.style.display = "none";
+                    }
+
+                    if (roomData[room]["free"]) {
+                        roomGraphic.setAttribute("fill","green");
+                        console.log(roomData[room].name+" sollte jetzt gruen sein");
+                    } else {
+                        roomGraphic.setAttribute("fill","red");
+                        console.log(roomData[room].name+" sollte jetzt rot sein");
+                    }
+
                 }
 
             }, false);
