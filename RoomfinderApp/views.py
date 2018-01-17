@@ -6,146 +6,12 @@ import pytz
 import secret
 from django.core import serializers
 from django.template import loader
-from django.shortcuts import render
-from RoomfinderApp.models import Building,Room,Event
-
-# Function getselectedbuildings()
-# returns True if buildings where found otherwise False
-# parameter: request object, buildings: list of buildings (returned)
-def getselectedbuildings(request, buildings):
-    returnvalue = False
-    if 'A' in request.GET:
-        gebaeude = request.GET['A']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('A')
-    if 'B' in request.GET:
-        gebaeude = request.GET['B']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('B')
-    if 'C' in request.GET:
-        gebaeude = request.GET['C']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('C')
-    if 'D' in request.GET:
-        gebaeude = request.GET['D']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('D')
-    if 'E' in request.GET:
-        gebaeude = request.GET['E']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('E')
-    if 'F' in request.GET:
-        gebaeude = request.GET['F']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('F')
-    if 'G' in request.GET:
-        gebaeude = request.GET['G']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('G')
-    if 'H' in request.GET:
-        gebaeude = request.GET['H']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('H')
-    if 'J' in request.GET:
-        gebaeude = request.GET['J']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('J')
-    if 'KLM' in request.GET:
-        gebaeude = request.GET['KLM']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('KLM')
-    if 'N' in request.GET:
-        gebaeude = request.GET['N']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('N')
-    if 'P' in request.GET:
-        gebaeude = request.GET['P']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('P')
-    if 'R' in request.GET:
-        gebaeude = request.GET['R']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('R')
-    if 'W' in request.GET:
-        gebaeude = request.GET['W']
-        if gebaeude:
-            returnvalue = True
-            buildings.append('W')
-    return returnvalue
-
-
-# Function getselectedlevels()
-# returns True if levels where found otherwise False
-# parameter: request object, levels: list of levels (returned)
-def getselectedlevels(request, levels):
-    returnvalue = False
-
-    if 'level1' in request.GET:
-        level = request.GET['level1']
-        if level:
-            returnvalue = True
-            levels.append('level1')
-    if 'level2' in request.GET:
-        level = request.GET['level2']
-        if level:
-            returnvalue = True
-            levels.append('level2')
-    if 'level3' in request.GET:
-        level = request.GET['level3']
-        if level:
-            returnvalue = True
-            levels.append('level3')
-    if 'level4' in request.GET:
-        level = request.GET['level4']
-        if level:
-            returnvalue = True
-            levels.append('level4')
-
-    return returnvalue
+from RoomfinderApp.models import Building, Room, Event
 
 
 # Start page: Select
 def index(request):
-    if 'bdaytime' in request.GET:
-        bdaytime = request.GET['bdaytime']
-        wrongdatetime = False
-
-        if not bdaytime:
-            wrongdatetime = True
-
-        buildings = []
-        nobuilding = not getselectedbuildings(request, buildings)
-
-        levels = []
-        nolevel = not getselectedlevels(request, levels)
-        if wrongdatetime is False and nobuilding is False and nolevel is False:
-            room_info = get_room_info(bdaytime, buildings, levels)
-            json_data = convert_to_json(room_info)
-            return render(request, 'result.html', {"buildings": buildings, "room_info": room_info, "json_data": json_data})
-        else:
-            i = datetime.datetime.now()
-            return render(request, 'index.html', {'wrongDateTime': wrongdatetime, 'noBuilding': nobuilding,
-                                                  'noLevel': nolevel, 'month': i.month, 'year': i.year,
-                                                  'day': i.day, 'hour': i.hour, 'minute': i.minute,
-                                                  'levels': levels, 'buildings': buildings})
-
-    else:  # index view no request object available
-        i = datetime.datetime.now()
-        return render(request, 'index.html', {'month': i.month, 'year': i.year,
-                                              'day': i.day, 'hour': i.hour, 'minute': i.minute})
+    return render(request, 'index.html')
 
 
 def update(request):
@@ -155,24 +21,21 @@ def update(request):
 
 def result(request, building):
     buildings = [building]
+    db_room = Building.objects.get(name=building)
+    floors = set([room.floor for room in Room.objects.all().filter(building=db_room)])
+
     if "K" in buildings or "L" in buildings or "M" in buildings:
-        buildings.append("KLM")
-    room_info = get_room_info(datetime.datetime.now(), buildings, ["0", "1", "2", "3", "4", "5", "6"])
+        buildings.append("K")
+        buildings.append("L")
+        buildings.append("M")
+        buildings = list(set(buildings))
+    room_info = get_room_info(datetime.datetime.now(), buildings, floors)
     json_data = convert_to_json(room_info)
-    return render(request, 'result.html', {"buildings": buildings, "room_info": room_info, "json_data": json_data})
+    return render(request, 'result.html', {"buildings": buildings, "floors": floors, "room_info": room_info, "json_data": json_data})
+
 
 def get_room_info(daytime, buildings, floors):
-    #jedes Gebäude ist jetzt ein einzelner Eintrag
-    if 'KLM' in buildings:
-        buildings.remove('KLM')
-        buildings.append('K')
-        buildings.append('L')
-        buildings.append('M')
-    #wir unteressieren uns nur für "2", nicht "level 2"
-    floors = [floor[-1] for floor in floors]
-
     room_info = []
-
     for room in Room.objects.filter(building__in=Building.objects.filter(name__in=buildings), floor__in=floors):
         # availability = not Event.objects.filter(room=room, start__lt=bdaytime, end__gt=bdaytime).exists()
         availability = True
@@ -202,6 +65,11 @@ def get_room_info(daytime, buildings, floors):
                     duration_until_available = event.end - now
         time_until_change = (duration_until_occupied if availability else duration_until_available)
         room_info.append(RoomView(room.name, availability, time_until_change))
+    if "K" in buildings:
+        buildings.remove("K")
+        buildings.remove("L")
+        buildings.remove("M")
+        buildings.append("KLM")
     return room_info
 
 
@@ -338,7 +206,6 @@ def td_format(td_object):
 
 
 class RoomView:
-
     def __init__(self, name, free, duration_until_change):
         self.name = name
         self.free = free

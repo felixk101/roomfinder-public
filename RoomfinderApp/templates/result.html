@@ -9,143 +9,26 @@
 </head>
 <body>
     <header>
-      <p><img src="{% static "hsLogo.png" %}" alt="HsLogo"/></p>
+      <p> HSA Logo hier... </p>
       <h1 class="mainLine">RoomFinder</h1>
     </header>
-    {% if "A" in buildings %}
-        <h2>Gebäude A</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "A-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "A-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "A-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "A-Bau_3.OG.svg" %}
-    {% endif %}
-    {% if "B" in buildings %}
-        <h2>Gebäude B</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "B-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "B-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "B-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "B-Bau_3.OG.svg" %}
-    {% endif %}
-    {% if "C" in buildings %}
-        <h2>Gebäude C</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "C-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "C-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "C-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "C-Bau_3.OG.svg" %}
-    {% endif %}
-    {% if "D" in buildings %}
-        <h2>Gebäude D</h2>
-        <h3>Untergeschos</h3>
-        {% include "D-Bau_UG.svg" %}
-        <h3>Erdgeschoss</h3>
-        {% include "D-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "D-Bau_1.OG.svg" %}
-    {% endif %}
-    {% if "E" in buildings %}
-        <h2>Gebäude E</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "E-Bau_Eg.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "E-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "E-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "E-Bau_3.OG.svg" %}
-        <h3>Vierter Stock</h3>
-        {% include "E-Bau_4.OG.svg" %}
-        <h3>Fünter Stock</h3>
-        {% include "E-Bau_5.OG.svg" %}
-    {% endif %}
-    {% if "F" in buildings %}
-        <h2>Gebäude F</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "F-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "F-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "F-Bau_2.OG.svg" %}
-    {% endif %}
-    {% if "G" in buildings %}
-        <h2>Gebäude G</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "G-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "G-Bau_1.OG.svg" %}
-    {% endif %}
-    {% if "H" in buildings %}
-        <h2>Gebäude H</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "H-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "H-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "H-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "H-Bau_3.OG.svg" %}
-    {% endif %}
-    {% if "J" in buildings %}
-        <h2>Gebäude J</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "J-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "J-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "J-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "J-Bau_3.OG.svg" %}
-    {% endif %}
-    {% if "K" in buildings or "L" in buildings or "M" in buildings %}
-        <h2>Gebäude KLM</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "KLM-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "KLM-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "KLM-Bau_2.OG.svg" %}
-    {% endif %}
-    {% if "N" in buildings %}
-        <h2>Gebäude N</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "N-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "N-Bau_1.OG.svg" %}
-    {% endif %}
-    {% if "P" in buildings %}
-        <h2>Gebäude P</h2>
-        <h3>Dritter Stock</h3>
-        {% include "P-Bau_3.OG.svg" %}
-    {% endif %}
-    {% if "R" in buildings %}
-        <h2>Gebäude R</h2>
-        <h3>Zweiter Stock</h3>
-        {% include "R-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "R-Bau_3.OG.svg" %}
-    {% endif %}
-    {% if "W" in buildings %}
-        <h2>Gebäude W</h2>
-        <h3>Erdgeschoss</h3>
-        {% include "W-Bau_EG.svg" %}
-        <h3>Erster Stock</h3>
-        {% include "W-Bau_1.OG.svg" %}
-        <h3>Zweiter Stock</h3>
-        {% include "W-Bau_2.OG.svg" %}
-        <h3>Dritter Stock</h3>
-        {% include "W-Bau_3.OG.svg" %}
-    {% endif %}
+    {% for building in buildings %}
+        <h2>Gebäude {{ building }}</h2>
+        {% for floor in floors %}
+            <h3>{% if floor == 0 %}Untergeschoss{% endif %}</h3>
+            <h3>{% if floor == 1 %}Erdgeschoss{% endif %}</h3>
+            <h3>{% if floor == 2 %}Erster Stock{% endif %}</h3>
+            <h3>{% if floor == 3 %}Zweiter Stock{% endif %}</h3>
+            <h3>{% if floor == 4 %}Dritter Stock{% endif %}</h3>
+            <h3>{% if floor == 5 %}Vierter Stock{% endif %}</h3>
+            <h3>{% if floor == 6 %}Fünfter Stock{% endif %}</h3>
+            <h3>{% if floor == 7 %}Sechster Stock{% endif %}</h3>
+            <object id="{{ building }}{{ floor }}" data="{% static 'roomplans/' %}{{ building }}{{ floor }}.svg"
+                    type="image/svg+xml"></object>
+        {% endfor %}
+    {% endfor %}
+
+
 
     <script>
     (function() {
