@@ -23,30 +23,45 @@
             <h3>{% if floor == 5 %}Vierter Stock{% endif %}</h3>
             <h3>{% if floor == 6 %}Fünfter Stock{% endif %}</h3>
             <h3>{% if floor == 7 %}Sechster Stock{% endif %}</h3>
-            <object id="{{ building }}{{ floor }}" data="{% static 'roomplans/' %}{{ building }}{{ floor }}.svg"
+            <object id="{{ building }}{{ floor }}"
+                    class="floorGraphic"
+                    data="{% static 'roomplans/' %}{{ building }}{{ floor }}.svg"
                     type="image/svg+xml"></object>
         {% endfor %}
     {% endfor %}
 
-
-
     <script>
     (function() {
         var roomData = JSON.parse('{{ json_data|safe }}');
-        for (var room in roomData) {
-            var roomGraphic = document.getElementById(roomData[room].name);
-            if (roomGraphic == undefined) {
-                console.log("couldn't find an element with id "+roomData[room].name);
-                continue;
-            }
-            if (roomData[room]["free"]) {
-                roomGraphic.setAttribute("fill","green");
-                console.log(roomData[room].name+" sollte jetzt gruen sein");
-            } else {
-                roomGraphic.setAttribute("fill","red");
-                console.log(roomData[room].name+" sollte jetzt rot sein");
-            }
+        var floorGraphics = document.getElementsByClassName("floorGraphic");
+        for (var i = 0; i < floorGraphics.length; i++) {
+            floorGraphics[i].addEventListener("load",function(){
+                var floorGraphic = this.contentDocument;
+                //floorGraphic.firstElementChild.setAttribute("viewBox", "0 0 595.275 319.527")
+                floorGraphic.firstElementChild.setAttribute("transform","matrix(1.5,0,0,1.5,-60,-60)");
+                floorGraphic.firstElementChild.removeAttribute("height");
+                floorGraphic.firstElementChild.removeAttribute("width");
+
+                console.log(floorGraphic);
+                for (var room in roomData) {
+                    var roomGraphic = floorGraphic.getElementById(roomData[room].name);
+                    if (roomGraphic == undefined) {
+                        //console.log("couldn't find an element with id "+roomData[room].name);
+                        continue;
+                    } else {
+                        if (roomData[room]["free"]) {
+                            roomGraphic.setAttribute("fill","green");
+                            console.log(roomData[room].name+" sollte jetzt gruen sein");
+                        } else {
+                            roomGraphic.setAttribute("fill","red");
+                            console.log(roomData[room].name+" sollte jetzt rot sein");
+                        }
+                    }
+                }
+
+            }, false);
         }
+
     })();
     </script>
 </body>
