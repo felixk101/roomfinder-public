@@ -25,7 +25,7 @@ SECRET_KEY = 'x(gty62s%0&%f135gcvbg_0d5bhzs_&12%yh7)r@wx_%8_bu7o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['roomfinder.informatik.hs-augsburg.de','127.0.0.1','localhost']
 
 
 # Application definition

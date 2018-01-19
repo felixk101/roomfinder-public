@@ -62,7 +62,7 @@
 
                     function showPopup(e) {
                       console.log("hover detected over "+e.target.id);
-                      console.log(e);
+
                       var mypopup = document.getElementById("mypopup");
                       mypopup.innerHTML='<div id=popuptext>'
                       mypopup.innerHTML=mypopup.innerHTML+'<h3>'+e.target.id+'</h3>';
@@ -81,9 +81,14 @@
                       }
                       mypopup.innerHTML=mypopup.innerHTML+'</div>'
                       var iconPos = e.target.getBoundingClientRect();
-                      mypopup.style.left = (e.screenX) + "px";
+                      //iconPos.left
+                      //iconPos.top
+                      mypopup.style.left = (e.screenX+1) + "px";
+
+                      mypopup.style.top = (window.scrollY+e.screenY)+"px";
+                      console.log("y from screenY+window.scrollY is now "+mypopup.style.top);
                       //mypopup.style.bottom = (iconPos.top + 0) + "px";
-                      mypopup.style.top = (window.scrollY + e.screenY-100)+"px";//(window.scrollY + iconPos.top) + "px";
+                      //(window.scrollY + e.clientY)+"px";//(window.scrollY + iconPos.top) + "px";
                       mypopup.style.display = "block";
                     }
 

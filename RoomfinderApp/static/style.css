@@ -1,5 +1,9 @@
 body {
-    background-color: lightyellow;
+    background-color: #ddddaa;
+}
+
+object {
+  width: 100%
 }
 
 #popupText {
@@ -8,7 +12,7 @@ body {
 }
 
 #mypopup {
-  transform: translate(-50%,0);
+  transform: translate(-50%, -95%);
   width: 150px;
   padding: 10px;
   font-family: Arial, sans-serif;
@@ -16,6 +20,10 @@ body {
   border-radius: 6px;
   position: absolute;
   display: none;
+}
+
+#mypopup.red {
+  transform: translate(-50%, -60%);
 }
 
 .green, .green::before {
