@@ -9,46 +9,31 @@
 </head>
 <body>
     <span>
-        <object id="rotesTorSVG" style="height:75%;" data="{% static "rotesTor.svg" %}" type="image/svg+xml"></object>
-        <object id="brunnenlechSVG" style="height:75%;" data="{% static "maptest.svg" %}" type="image/svg+xml"></object>
+        <!--<object id="rotesTorSVG" style="height:75%;" data="{% static "rotesTor.svg" %}" type="image/svg+xml"></object>-->
+        <!--<object id="brunnenlechSVG" style="height:75%;" data="{% static "maptest.svg" %}" type="image/svg+xml"></object>-->
+
     </span>
 
-    <script>
-        //This script turns the SVGs into image maps for requesting specific buildings
-        var buildings = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "W"];
-
-        var rotesTor = document.getElementById("rotesTorSVG");
-        var brunnenlech = document.getElementById("brunnenlechSVG");
-
-        function makeCirclesClickable(svgElement) {
-            // get the inner DOM of the svg
-            var svgDoc = svgElement;
-            for (var buildingIndex in buildings) {
-                var circleName = "circle"+buildings[buildingIndex];
-                // get the inner element by id
-                var circle = svgDoc.getElementById(circleName);
-                if (circle !== null) {
-                    circle.addEventListener("mousedown", function() {
-                        console.log("you clicked on ",this.id.slice(-1));
-                        window.location.href="/building/"+this.id.slice(-1)
-                    }, false);
-                } else {
-                    console.log("couldn't find "+circleName);
-                }
-            }
-        }
-
-        // It's important to add a load event listener to the object,
-        // as it will load the svg doc asynchronously
-        rotesTor.addEventListener("load",function(){
-            console.log("preparing rotesTor");
-            makeCirclesClickable(rotesTor.contentDocument);
-        }, false);
-        brunnenlech.addEventListener("load",function(){
-            console.log("preparing brunnenlech");
-            makeCirclesClickable(brunnenlech.contentDocument);
-        }, false);
-
-    </script>
+<div>
+<map name="svgimagemap2"><area alt="L" coords="151,102,137,138,52,203,74,234,154,171,186,178,213,164,222,125,293,69,274,43,201,100,175,92" href="/building/L" shape="poly" title="L">
+<area alt="K" coords="274,43,293,69,294,104,306,128,346,141,362,134,393,162,411,138,374,113,382,83,364,60,337,54,320,55,296,29" href="/building/K" shape="poly" title="K">
+<area alt="W" coords="450,178,312,302,367,367,508,246" href="/building/W" shape="poly" title="W">
+<area alt="M" coords="358,144,400,193,294,282,274,285,255,275,213,313,225,324,183,359,172,351,157,361,133,334,241,244,245,217,271,199,293,199" href="/building/M" shape="poly" title="M">
+<area alt="J" coords="290,319,230,372,282,431,342,377" href="/building/J" shape="poly" title="J">
+</map>
+<img src="{% static "rotesTor.png" %}" width="529" usemap="#svgimagemap2" alt="Campus am Roten Tor"/>
+</div>
+<div>
+<map name="svgimagemap"><area alt="B" coords="346,98,362,84,377,103,362,115,380,143,361,158,336,173,304,172,296,165,288,173,267,143,276,138,283,146,286,114,311,91" href="/building/B" shape="poly" title="B">
+<area alt="C" coords="443,5,408,34,395,44,384,33,368,46,383,66,384,83,397,103,419,113,459,160,476,147,446,107,461,93,465,50,454,38,463,31" href="/building/C" shape="poly" title="C">
+<area alt="A" coords="190,197,217,184,222,192,272,154,288,173,269,185,288,204,289,235,280,257,309,288,295,301,265,262,242,261,212,245,207,216" href="/building/A" shape="poly" title="A">
+<area alt="D" coords="344,283,300,317,300,347,287,358,308,380,326,382,357,386,400,352" href="/building/D" shape="poly" title="D">
+<area alt="E" coords="226,276,213,289,203,322,216,345,248,353,276,344,285,310,295,301,272,276,265,280" href="/building/E" shape="poly" title="E">
+<area alt="F" coords="388,179,413,209,387,229,382,251,361,265,341,268,316,285,293,257,308,243,304,211,323,191,347,185,368,193" href="/building/F" shape="poly" title="F">
+<area alt="G" coords="447,249,483,293,451,324,427,329,415,338,365,274,415,235" href="/building/G" shape="poly" title="G">
+<area alt="H" coords="0,145,102,136,104,161,61,165,87,191,86,215,109,215,118,292,38,298,31,241,7,225,5,189" href="/building/H" shape="poly" title="H">
+</map>
+<img src="{% static "maptest.png" %}" width="529" usemap="#svgimagemap" alt="Campus am Brunnenlech"/>
+</div>
 </body>
 </html>
