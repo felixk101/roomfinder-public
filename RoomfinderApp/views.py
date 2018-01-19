@@ -29,7 +29,7 @@ def result(request, building):
         buildings.append("L")
         buildings.append("M")
         buildings = list(set(buildings))
-    room_info = get_room_info(datetime.datetime.now()+datetime.timedelta(hours=27), buildings, floors)
+    room_info = get_room_info(datetime.datetime.now(), buildings, floors)
     json_data = convert_to_json(room_info)
     return render(request, 'result.html', {"buildings": buildings, "floors": floors, "room_info": room_info, "json_data": json_data})
 
