@@ -6,34 +6,48 @@
     <meta charset="UTF-8">
     <title>RoomFinder</title>
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+    <script src="{% static "imageMapResizer.js" %}"></script>
 </head>
 <body>
     <span>
         <!--<object id="rotesTorSVG" style="height:75%;" data="{% static "rotesTor.svg" %}" type="image/svg+xml"></object>-->
         <!--<object id="brunnenlechSVG" style="height:75%;" data="{% static "maptest.svg" %}" type="image/svg+xml"></object>-->
-
     </span>
+<div>
+    <img src="{% static "rotesTor.png" %}" width="800" usemap="#rotestormap" alt="Campus am Roten Tor"/>
 
-<div>
-<map name="svgimagemap2"><area alt="L" coords="151,102,137,138,52,203,74,234,154,171,186,178,213,164,222,125,293,69,274,43,201,100,175,92" href="/building/L" shape="poly" title="L">
-<area alt="K" coords="274,43,293,69,294,104,306,128,346,141,362,134,393,162,411,138,374,113,382,83,364,60,337,54,320,55,296,29" href="/building/K" shape="poly" title="K">
-<area alt="W" coords="450,178,312,302,367,367,508,246" href="/building/W" shape="poly" title="W">
-<area alt="M" coords="358,144,400,193,294,282,274,285,255,275,213,313,225,324,183,359,172,351,157,361,133,334,241,244,245,217,271,199,293,199" href="/building/M" shape="poly" title="M">
-<area alt="J" coords="290,319,230,372,282,431,342,377" href="/building/J" shape="poly" title="J">
+    <map id="rotestormap" name="rotestormap"><area alt="L" coords="575,388,521,525,198,768,283,885,586,648,706,676,806,622,840,473,1109,265,1038,165,761,379,663,351" href="/building/L" shape="poly" title="L">
+<area alt="K" coords="1038,165,1109,265,1115,396,1160,488,1309,533,1372,508,1486,613,1558,525,1418,428,1446,316,1378,231,1275,205,1212,211,1120,111" href="/building/K" shape="poly" title="K">
+<area alt="W" coords="1703,676,1180,1142,1389,1387,1923,930" href="/building/W" shape="poly" title="W">
+<area alt="M" coords="1356,546,1516,730,1114,1067,1039,1079,966,1043,807,1186,853,1227,693,1360,653,1327,597,1366,504,1263,912,924,928,823,1025,754,1110,754" href="/building/M" shape="poly" title="M">
+<area alt="J" coords="1097,1206,871,1406,1069,1630,1295,1426" shape="poly" title="J">
 </map>
-<img src="{% static "rotesTor.png" %}" width="529" usemap="#svgimagemap2" alt="Campus am Roten Tor"/>
 </div>
 <div>
-<map name="svgimagemap"><area alt="B" coords="346,98,362,84,377,103,362,115,380,143,361,158,336,173,304,172,296,165,288,173,267,143,276,138,283,146,286,114,311,91" href="/building/B" shape="poly" title="B">
-<area alt="C" coords="443,5,408,34,395,44,384,33,368,46,383,66,384,83,397,103,419,113,459,160,476,147,446,107,461,93,465,50,454,38,463,31" href="/building/C" shape="poly" title="C">
-<area alt="A" coords="190,197,217,184,222,192,272,154,288,173,269,185,288,204,289,235,280,257,309,288,295,301,265,262,242,261,212,245,207,216" href="/building/A" shape="poly" title="A">
-<area alt="D" coords="344,283,300,317,300,347,287,358,308,380,326,382,357,386,400,352" href="/building/D" shape="poly" title="D">
-<area alt="E" coords="226,276,213,289,203,322,216,345,248,353,276,344,285,310,295,301,272,276,265,280" href="/building/E" shape="poly" title="E">
-<area alt="F" coords="388,179,413,209,387,229,382,251,361,265,341,268,316,285,293,257,308,243,304,211,323,191,347,185,368,193" href="/building/F" shape="poly" title="F">
-<area alt="G" coords="447,249,483,293,451,324,427,329,415,338,365,274,415,235" href="/building/G" shape="poly" title="G">
-<area alt="H" coords="0,145,102,136,104,161,61,165,87,191,86,215,109,215,118,292,38,298,31,241,7,225,5,189" href="/building/H" shape="poly" title="H">
+    <img src="{% static "maptest.png" %}" width="800" usemap="#brunnenlechmap" alt="Campus am Brunnenlech"/>
+
+    <map id="brunnenlechmap" name="brunnenlechmap"><area alt="B" coords="1308,367,1371,317,1427,388,1371,431,1438,540,1367,595,1273,651,1153,648,1121,622,1091,653,1013,541,1044,521,1070,549,1084,427,1178,343" href="/building/B" shape="poly" title="B">
+<area alt="C" coords="1678,16,1543,127,1496,163,1452,124,1391,170,1450,247,1455,313,1501,388,1586,425,1735,603,1802,553,1687,401,1742,351,1759,188,1716,140,1752,113" href="/building/C" shape="poly" title="C">
+<area alt="A" coords="722,744,822,695,842,726,1031,579,1091,653,1018,700,1090,770,1097,887,1062,971,1169,1086,1118,1138,1005,989,919,986,804,924,787,815" href="/building/A" shape="poly" title="A">
+<area alt="D" coords="1301,1069,1136,1200,1138,1312,1088,1353,1166,1437,1235,1446,1351,1460,1515,1332" href="/building/D" shape="poly" title="D">
+<area alt="E" coords="858,1044,807,1093,772,1217,820,1305,940,1335,1047,1302,1079,1171,1118,1138,1032,1041,1006,1056" href="/building/E" shape="poly" title="E">
+<area alt="F" coords="1469,675,1562,791,1466,864,1445,947,1367,1001,1291,1013,1196,1075,1111,970,1165,919,1153,796,1224,722,1313,699,1393,729" href="/building/F" shape="poly" title="F">
+<area alt="G" coords="1692,942,1826,1107,1705,1226,1615,1245,1571,1277,1383,1036,1572,887" href="/building/G" shape="poly" title="G">
+<area alt="H" coords="0,547,390,512,398,607,233,622,331,719,329,812,417,813,449,1101,146,1128,122,910,31,848,24,715" href="/building/H" shape="poly" title="H">
 </map>
-<img src="{% static "maptest.png" %}" width="529" usemap="#svgimagemap" alt="Campus am Brunnenlech"/>
 </div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    var mapArray = imageMapResize();
+    console.log(mapArray);
+
+    var map1 = document.getElementById("rotestormap")
+
+    //document.getElementById("brunnenlechmap").imageMapResize();
+});
+
+</script>
 </body>
 </html>
