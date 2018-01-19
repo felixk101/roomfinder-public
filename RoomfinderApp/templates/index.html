@@ -6,15 +6,15 @@
     <meta charset="UTF-8">
     <title>RoomFinder</title>
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-    <script src="{% static "imageMapResizer.js" %}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="{% static "jquery.rwdImageMaps.js" %}"></script>
 </head>
 <body>
     <span>
         <!--<object id="rotesTorSVG" style="height:75%;" data="{% static "rotesTor.svg" %}" type="image/svg+xml"></object>-->
         <!--<object id="brunnenlechSVG" style="height:75%;" data="{% static "maptest.svg" %}" type="image/svg+xml"></object>-->
     </span>
-<div>
-    <img src="{% static "rotesTor.png" %}" width="800" usemap="#rotestormap" alt="Campus am Roten Tor"/>
+    <img src="{% static "rotesTor.png" %}" width="2000" height="1673" usemap="#rotestormap" alt="Campus am Roten Tor"/>
 
     <map id="rotestormap" name="rotestormap"><area alt="L" coords="575,388,521,525,198,768,283,885,586,648,706,676,806,622,840,473,1109,265,1038,165,761,379,663,351" href="/building/L" shape="poly" title="L">
 <area alt="K" coords="1038,165,1109,265,1115,396,1160,488,1309,533,1372,508,1486,613,1558,525,1418,428,1446,316,1378,231,1275,205,1212,211,1120,111" href="/building/K" shape="poly" title="K">
@@ -22,9 +22,7 @@
 <area alt="M" coords="1356,546,1516,730,1114,1067,1039,1079,966,1043,807,1186,853,1227,693,1360,653,1327,597,1366,504,1263,912,924,928,823,1025,754,1110,754" href="/building/M" shape="poly" title="M">
 <area alt="J" coords="1097,1206,871,1406,1069,1630,1295,1426" shape="poly" title="J">
 </map>
-</div>
-<div>
-    <img src="{% static "maptest.png" %}" width="800" usemap="#brunnenlechmap" alt="Campus am Brunnenlech"/>
+    <img src="{% static "maptest.png" %}" width="2000" height="1522" usemap="#brunnenlechmap" alt="Campus am Brunnenlech"/>
 
     <map id="brunnenlechmap" name="brunnenlechmap"><area alt="B" coords="1308,367,1371,317,1427,388,1371,431,1438,540,1367,595,1273,651,1153,648,1121,622,1091,653,1013,541,1044,521,1070,549,1084,427,1178,343" href="/building/B" shape="poly" title="B">
 <area alt="C" coords="1678,16,1543,127,1496,163,1452,124,1391,170,1450,247,1455,313,1501,388,1586,425,1735,603,1802,553,1687,401,1742,351,1759,188,1716,140,1752,113" href="/building/C" shape="poly" title="C">
@@ -35,19 +33,13 @@
 <area alt="G" coords="1692,942,1826,1107,1705,1226,1615,1245,1571,1277,1383,1036,1572,887" href="/building/G" shape="poly" title="G">
 <area alt="H" coords="0,547,390,512,398,607,233,622,331,719,329,812,417,813,449,1101,146,1128,122,910,31,848,24,715" href="/building/H" shape="poly" title="H">
 </map>
-</div>
+
 
 <script>
-
-document.addEventListener("DOMContentLoaded", function(event) {
-    var mapArray = imageMapResize();
-    console.log(mapArray);
-
-    var map1 = document.getElementById("rotestormap")
-
-    //document.getElementById("brunnenlechmap").imageMapResize();
-});
-
+    $(document).ready(function(e) {
+        $('img[usemap]').rwdImageMaps();
+    });
 </script>
+
 </body>
 </html>
