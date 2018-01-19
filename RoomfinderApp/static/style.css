@@ -15,16 +15,8 @@ img {
       display: block;
     margin: 0 auto;
 }
-@media only screen and (min-width: 600px) {
-    /* For tablets: */
-    img {
-      width: 70%;
-      height:70%;
-          display: block;
-    margin: 0 auto;
-  }
-}
-@media only screen and (min-width: 768px) {
+
+@media only screen and (min-width: 768px) and (max-resolution: 120dpi) {
     /* For desktop: */
     img {
       width: 50%;
