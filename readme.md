@@ -1,3 +1,5 @@
+Check it out here! http://roomfinder.informatik.hs-augsburg.de/
+
 Prerequisites:
 
 - Python 3.5
