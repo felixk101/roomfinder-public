@@ -16,4 +16,4 @@ Execution:
 
 Contact: felix.kampfer@hs-augsburg.de
 
-Documentation: https://www.overleaf.com/11819254htqqvckyxgmz 
+Documentation: http://www.felixkampfer.com/otherstatic/roomfinder_documentation.pdf 
