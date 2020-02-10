@@ -1,4 +1,4 @@
-Check it out here! http://roomfinder.informatik.hs-augsburg.de/
+Check it out here! ~~http://roomfinder.informatik.hs-augsburg.de/~~
 
 Prerequisites:
 
